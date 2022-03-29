@@ -1,5 +1,7 @@
 const express = require('express');
-const { body } = require('express-validator');
+const {
+   body
+} = require('express-validator');
 const isAuth = require('../middleware/isAuth');
 
 const User = require('../models/user');
@@ -29,7 +31,19 @@ router.put(
    authController.signup
 );
 
-router.post('/login', authController.login); // TODO: Add all the other User Request validation
+
+router.post('/login', 
+   [
+      body('email')
+      .isEmail()
+      .withMessage('Please enter a valid email.')
+      .normalizeEmail(),
+      body('password').trim().isLength({
+         min: 5
+      }),
+      body('name').trim().not().isEmpty(),
+   ],
+   authController.login); // TODO: Add all the other User Request validation
 
 router.post('/logout', authController.logout); // TODO: Add all the other User Request validation
 
