@@ -101,7 +101,7 @@
       }
     },
     "/logout": {
-      "post": {
+      "put": {
         "tags": [
           "auth"
         ],

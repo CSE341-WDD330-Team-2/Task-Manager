@@ -47,6 +47,6 @@ router.post('/login',
    ],
    authController.login); // TODO: Add all the other User Request validation
 
-router.post('/logout', authController.logout); // TODO: Add all the other User Request validation
+router.put('/logout', authController.logout); // TODO: Add all the other User Request validation
 
 module.exports = router;
