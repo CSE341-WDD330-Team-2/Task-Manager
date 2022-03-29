@@ -272,6 +272,15 @@
             "description": "Update the chosen task with new information",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created task object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
           }
         ],
         "responses": {
@@ -601,7 +610,7 @@
           "format": "string"
         },
         "assigned_to": {
-          "type": "integer",
+          "type": "string",
           "format": "string"
         },
         "priority": {
