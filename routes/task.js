@@ -17,9 +17,9 @@ router.post(
 
 router.get('/:taskId'); //, taskController.getTask
 
-router.put('/:taskId', isAuth, taskController.updateTask); //, taskController.updateTask 
+router.put('/:taskId', /*isAuth,*/ taskController.updateTask); //, taskController.updateTask 
 
-router.delete('/:taskId'); //, taskController.deleteTask 
+router.delete('/:taskId', /*isAuth,*/ taskController.deleteTask); //, taskController.deleteTask 
 
 // TODO: Add authentication for the task requests
 module.exports = router;

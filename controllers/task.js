@@ -1,6 +1,7 @@
 const Task = require('../models/task');
 const User = require('../models/user');
 const Company = require('../models/company');
+const company = require('../models/company');
 
 exports.createTask = (req, res, next) => {
     // req = req.req;
@@ -93,6 +94,44 @@ exports.updateTask = (req, res, next) => {
             message: "Task updated succesfully",
             task: result
         });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    })
+}
+
+exports.deleteTask = (req, res, next) => {
+    const taskId = req.params.taskId;
+
+    Task.findById(taskId)
+    .then(task => {
+        if (!task) {
+            const error = new Error('Could not find task');
+            error.statusCode = 404;
+            throw error;
+        }
+        const userId = task.creator_user_id;
+        // find user who created task
+        return User.findById(userId);
+    })
+    .then(user => {
+        // find the company the user belongs to 
+       return company.findOne({ user: user });
+    })
+    .then(company => {
+        // remove task from company
+        company.tasks.pull(taskId);
+        return company.save();
+    })
+    .then(result => {
+        // remove the task
+        return Task.findByIdAndDelete(taskId);
+    })
+    .then(result => {
+        res.status(200).json({ message: "Task successfully deleted" });
     })
     .catch(err => {
         if (!err.statusCode) {
