@@ -5,6 +5,8 @@ const router = express.Router();
 const companyController = require('../controllers/company');
 const company = require('../models/company');
 
+router.get('/companies', companyController.getAllCompanies); //, taskController.createTask 
+
 router.get('/companies', companyController.getCompany); //, taskController.createTask 
 
 router.post('/companies/addcompany/:{companyId}', companyController.createCompany); //, taskController.getTasks
