@@ -27,12 +27,12 @@ exports.createTask = (req, res, next) => {
     task
         .save()
         // TODO: add user logic back in once users are in companies
-        // .then(result => {
-        //     return User.findById(creatorUserId);
-        // })
+        .then(result => {
+            return User.findById(creatorUserId);
+        })
         .then(user => {
-            // return Company.findOne({ employees: user });
-            return Company.findById("6242575c6eba12a30eec4946");
+            return Company.findOne({ employees: user });
+            // return Company.findById("6242575c6eba12a30eec4946");
         })
         .then(company => {
             // Add task to company
@@ -119,7 +119,7 @@ exports.deleteTask = (req, res, next) => {
     })
     .then(user => {
         // find the company the user belongs to 
-       return company.findOne({ user: user });
+       return company.findOne({ employees: user });
     })
     .then(company => {
         // remove task from company
