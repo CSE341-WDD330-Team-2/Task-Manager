@@ -29,7 +29,6 @@ router.put(
       }),
       body('name').trim().not().isEmpty(),
    ],
-   // isAuth, //This checks for a JWT token, should be used on all other routes like getting tasks/create company etc.
    authController.signup
 );
 
@@ -45,8 +44,8 @@ router.post('/login',
       }),
       body('name').trim().not().isEmpty(),
    ],
-   authController.login); // TODO: Add all the other User Request validation
+   authController.login);
 
-router.put('/logout', authController.logout); // TODO: Add all the other User Request validation
+router.put('/logout', isAuth, authController.logout);
 
 module.exports = router;
