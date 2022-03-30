@@ -6,13 +6,13 @@ const User = require('../models/user');
 const Company = require('../models/company')
 const { validationResult } = require('express-validator');
 
-// TODO: Implement error handling
+
 exports.signup = (req, res, next) => {
-   // This probably needs to be converted to 'signup'.
    if (!req.body.email || !req.body.password || !req.body.company) {
       res.status(400).send({ message: 'Cannot provide empty content!' });
       return;
    }
+  
    const errors = validationResult(req);
    if (!errors.isEmpty()) {
       const error = new Error('Validation failed.');
@@ -20,13 +20,13 @@ exports.signup = (req, res, next) => {
       error.data = errors.array();
       throw error;
    }
-
+  
    const email = req.body.email;
    const first_name = req.body.first_name;
    const last_name = req.body.last_name;
    const password = req.body.password;
-   // bcrypt.hash(req.body.password, 12);
    const company = req.body.company;
+
    bcrypt
       .hash(password, 12)
       .then((hashedPw) => {
@@ -37,6 +37,21 @@ exports.signup = (req, res, next) => {
             last_name: last_name,
             company: company,
          });
+// original code commented out, just to be sure that other code works before deleting
+//          user
+//          .save()
+//          .then((data) => {
+//             res.status(201).send({
+//                message: 'Successfully created user!',
+//             })
+//          })
+//          .catch((err) => {
+//             res.status(500).send({
+//                message:
+//                   err.message || 'An error occurred while creating the user!',
+//             });
+//          });
+//       })
          return user.save();
       })
       .then((data) => { // TODO: Delete this, it's only for testing purposes
@@ -112,57 +127,42 @@ exports.login = (req, res, next) => {
 
    User.findOne({ email: email })
       .then((user) => {
-         console.log(user);
          if (!user) {
             return res.status(422);
-            // .render('auth/login', {
-            //    path: '/login',
-            //    pageTitle: 'Login',
-            //    errorMessage: 'Invalid email or password.',
-            //    oldInput: {
-            //       email: email,
-            //       password: password,
-            //    },
-            //    // validationErrors: []
-            // });
          }
-         bcrypt.compare(password, user.password).then((doMatch) => {
-            if (doMatch) {
-               // req.session.isLoggedIn = true;
-               // req.session.user = user;
-               // return req.session.save(err => {
-               //   console.log(err);
-               // res.redirect('/');
-               // });
-               accessToken = jwt.sign(
-                  { user },
-                  process.env.ACCESS_TOKEN_SECRET
-               ); //This creates the JWT token
-               // TODO: Should we set an expiration for our jwt? Like a few hours maybe? Coordinate with frontend
-               return res.status(200).json({ accessToken: accessToken });
-            }
-            return res.status(422);
-            // .render('/login', {
-            //    path: '/login',
-            //    pageTitle: 'Login',
-            //    errorMessage: 'Invalid email or password.',
-            //    oldInput: {
-            //       email: email,
-            //       password: password,
-            //    },
-            //    // validationErrors: []
-         });
+         bcrypt
+            .compare(password, user.password)
+            .then((doMatch) => {
+               if (doMatch) {
+                  accessToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" }); //This creates the JWT token
+                  return res.status(200).json({ accessToken: accessToken });
+               }
+               return res.status(422);
+            })
+            .catch((err) => {
+               console.log(err);
+               return res.status(500);
+            })
       })
       .catch((err) => {
          console.log(err);
          return res.status(500);
       });
-   // })
-   // .catch((err) => {
-   //    const error = new Error(err);
-   //    error.httpStatusCode = 500;
-   //    return next(error);
-   // });
 };
 
-exports.logout = (req, res, next) => {};
+exports.logout = (req, res, next) => {
+   const authHeader = req.headers['authorization'];
+
+   jwt.sign(authHeader, '', {expiresIn: 1}, (logout, err) => {
+      if (logout) {
+         res.status(201).send({
+            message: 'You have been Logged Out.'
+         });
+      } else {
+         res.status(400).send({
+            message: 'Error!'
+         });
+      };
+   })
+};
+
