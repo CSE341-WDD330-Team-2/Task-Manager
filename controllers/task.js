@@ -65,6 +65,20 @@ exports.getTasks = (req, res, next) => {
     });
 };
 
+exports.getTask = (req, res, next) => {
+    const taskId = req.params.taskId;
+    Task.findById(taskId)
+    .then(task => {
+      console.log(task);
+        res.status(200).json({
+            task: task,
+        });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
 exports.updateTask = (req, res, next) => {
     const id = req.params.taskId;
     const title = req.body.title;
