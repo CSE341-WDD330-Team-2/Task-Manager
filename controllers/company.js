@@ -17,7 +17,6 @@ exports.getCompanies = (req, res, next) => {
 
 
 exports.getCompany = (req, res, next) => {
-    console.log("hello");
     const companyId = req.params.companyId;
     Company.findById(companyId)
     .then(company => {
