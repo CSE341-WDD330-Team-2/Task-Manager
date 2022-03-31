@@ -135,7 +135,7 @@ exports.login = (req, res, next) => {
             .then((doMatch) => {
                if (doMatch) {
                   accessToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" }); //This creates the JWT token
-                  return res.status(200).json({ accessToken: accessToken });
+                  return res.status(200).json({ accessToken: accessToken, user_id: user._id });
                }
                return res.status(422);
             })
