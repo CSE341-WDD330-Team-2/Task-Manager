@@ -1,7 +1,6 @@
 const Task = require('../models/task');
 const User = require('../models/user');
 const Company = require('../models/company');
-const company = require('../models/company');
 
 exports.createTask = (req, res, next) => {
     // req = req.req;
