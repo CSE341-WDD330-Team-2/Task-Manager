@@ -1,14 +1,12 @@
+//AUTH ROUTES
 const express = require('express');
-const {
-   body
-} = require('express-validator');
+const { body } = require('express-validator');
 const isAuth = require('../middleware/isAuth');
-
 const User = require('../models/user');
-
 const router = express.Router();
-
 const authController = require('../controllers/auth');
+
+//SIGN UP
 router.put(
    '/signup',
    [
@@ -29,9 +27,9 @@ router.put(
    ],
    authController.signup
 );
-
-
-router.post('/login', 
+//LOG IN
+router.post(
+   '/login', 
    [
       body('email')
       .isEmail()
@@ -42,8 +40,9 @@ router.post('/login',
       }),
       body('name').trim().not().isEmpty(),
    ],
-   authController.login);
-
+   authController.login
+);
+//LOG OUT
 router.put('/logout', isAuth, authController.logout);
 
 module.exports = router;

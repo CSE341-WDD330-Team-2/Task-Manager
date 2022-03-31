@@ -1,14 +1,12 @@
+//MAIN INDEX
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
-
 const indexRoutes = require('./routes/index');
-
 const port = process.env.PORT || 8080;
 const app = express();
-
 const MONGODB_URI =
    process.env.MONGODB_URL ||
    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.j6osm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -16,7 +14,7 @@ const MONGODB_URI =
 
 app.use(cors());
 
-// for the restful api
+// For the restful api
 app.use(bodyParser.json())
    .use((req, res, next) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
@@ -30,10 +28,9 @@ app.use(bodyParser.json())
       );
       next();
    })
-   // putting routes here in instead of the index file
    .use('/', indexRoutes);
 
-// error handling
+// Error handling
 app.use((error, req, res, next) => {
    console.log(error);
    const status = error.statusCode || 500;
@@ -41,7 +38,6 @@ app.use((error, req, res, next) => {
    const data = error.data;
    res.status(status).json({ message: message, data: data });
    });
-
 
 // mongoose db connection
 mongoose
