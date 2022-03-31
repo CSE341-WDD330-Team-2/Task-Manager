@@ -33,6 +33,15 @@ app.use(bodyParser.json())
    // putting routes here in instead of the index file
    .use('/', indexRoutes);
 
+// error handling
+app.use((error, req, res, next) => {
+   console.log(error);
+   const status = error.statusCode || 500;
+   const message = error.message;
+   const data = error.data;
+   res.status(status).json({ message: message, data: data });
+   });
+
 
 // mongoose db connection
 mongoose

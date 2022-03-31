@@ -21,7 +21,7 @@ const taskSchema = new Schema({
         required: true
     },
     status: {
-        type: string,
+        type: String,
         required: true
     },
     creator_user_id: {
@@ -33,10 +33,10 @@ const taskSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    taskId: {
-        type: Schema.Types.ObjectId,
-        required: true
-    }
+    // taskId: {
+    //     type: Schema.Types.ObjectId,
+    //     required: true
+    // }
 });
 
 module.exports = mongoose.model('Task', taskSchema);

@@ -5,8 +5,8 @@
     "version": "1.0.0",
     "title": "Project Management"
   },
-  "host": "virtserver.swaggerhub.com",
-  "basePath": "/project_management/Library/1.0.0",
+  "host": "localhost:8080",
+  "basePath": "/",
   "tags": [
     {
       "name": "project",
@@ -14,7 +14,7 @@
     }
   ],
   "schemes": [
-    "https",
+    
     "http"
   ],
   "paths": {
@@ -101,7 +101,7 @@
       }
     },
     "/logout": {
-      "post": {
+      "put": {
         "tags": [
           "auth"
         ],
@@ -138,7 +138,7 @@
         }
       }
     },
-    "/task": {
+    "/task/add-task": {
       "post": {
         "tags": [
           "task"
@@ -272,6 +272,15 @@
             "description": "Update the chosen task with new information",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created task object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
           }
         ],
         "responses": {
@@ -333,6 +342,92 @@
         }
       }
     },
+    "/company": {
+      "get": {
+        "tags": [
+          "company"
+        ],
+        "summary": "List One Company",
+        "operationId": "getCompany",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "company",
+            "description": "Pull company info from database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Companies data retrieved",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "404": {
+            "description": "Task not found",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "Failed to process request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/companies": {
+      "get": {
+        "tags": [
+          "company"
+        ],
+        "summary": "List all Companies",
+        "operationId": "getCompany",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "companies",
+            "description": "Pull company info from database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Companies data retrieved",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "404": {
+            "description": "Task not found",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "Failed to process request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "/companies/addCompany/{companyId}": {
       "post": {
         "tags": [
@@ -362,49 +457,6 @@
           },
           "403": {
             "description": "Invalid Task",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      }
-    },
-    "/companies": {
-      "get": {
-        "tags": [
-          "company"
-        ],
-        "summary": "find task by Id",
-        "operationId": "getCompany",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "companies",
-            "description": "Pull company info from database",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Company"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Companies data retrieved",
-            "schema": {
-              "$ref": "#/definitions/Company"
-            }
-          },
-          "404": {
-            "description": "Task not found",
             "schema": {
               "type": "string"
             }
@@ -526,12 +578,6 @@
         "confirmPassword": {
           "type": "string"
         },
-        "tasks": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Task"
-          }
-        },
         "company": {
           "type": "string"
         }
@@ -564,11 +610,11 @@
           "format": "string"
         },
         "assigned_to": {
-          "type": "integer",
+          "type": "string",
           "format": "string"
         },
         "priority": {
-          "type": "string"
+          "type": "integer"
         }
       }
     },
