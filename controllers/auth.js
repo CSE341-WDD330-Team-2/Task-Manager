@@ -4,9 +4,9 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // JWT Academind Video: https://pro.academind.com/courses/767386/lectures/13902439
 const User = require('../models/user');
-const Company = require('../models/company')
+const Company = require('../models/company');
 const { validationResult } = require('express-validator');
-
+const task = require('../models/task');
 
 exports.signup = (req, res, next) => {
    /**
@@ -20,7 +20,7 @@ exports.signup = (req, res, next) => {
     * STEP7a: If company doesn't exist, create new Company model
     * STEP8: Error Checking
     */
-   console.log("") //This allows all the documentation above to be compacted
+   console.log(''); //This allows all the documentation above to be compacted
 
    //STEP1
    if (!req.body.email || !req.body.password || !req.body.company) {
@@ -36,7 +36,7 @@ exports.signup = (req, res, next) => {
       error.data = errors.array();
       throw error;
    }
-  
+
    //STEP3
    const email = req.body.email;
    const first_name = req.body.first_name;
@@ -58,40 +58,44 @@ exports.signup = (req, res, next) => {
          });
          return user.save(); //STEP6
       })
-      .then((data) => { // TODO: Delete this, it's only for testing purposes
-         Company 
-         .findOne({company_name: company}) //STEP7
-         .then(comp => {
-            console.log(comp);
-            let new_company;
-            if (!comp) { //STEP7a
-               new_company = new Company({
-                  company_name: company,
-                  logo: "https://www.southcharlottefamilycounseling.com/wp-content/uploads/2015/10/cropped-logo-dummy.png",
-                  employees: [
-                     data._id // Potentially import mongoose id??
-                  ],
-                  tasks: []
-               })
-            }
-            else { //STEP7
-               new_company = comp;
-               user_array = new_company.employees;
-               user_array.push(data._id);
-               new_company.employees = user_array;
-            }
-            console.log(new_company)
-            return new_company.save();
-         })
-         //STEP8
-         .catch(err => {
-            res.status(500).send({
-               message: err.message || 'An error occurred while creating the company!',
+      .then((data) => {
+         // TODO: Delete this, it's only for testing purposes
+         Company.findOne({ company_name: company }) //STEP7
+            .then((comp) => {
+               console.log(comp);
+               let new_company;
+               if (!comp) {
+                  //STEP7a
+                  new_company = new Company({
+                     company_name: company,
+                     logo: 'https://www.southcharlottefamilycounseling.com/wp-content/uploads/2015/10/cropped-logo-dummy.png',
+                     employees: [
+                        data._id, // Potentially import mongoose id??
+                     ],
+                     tasks: [],
+                  });
+               } else {
+                  //STEP7
+                  new_company = comp;
+                  user_array = new_company.employees;
+                  user_array.push(data._id);
+                  new_company.employees = user_array;
+               }
+               console.log(new_company);
+               return new_company.save();
+            })
+            //STEP8
+            .catch((err) => {
+               res.status(500).send({
+                  message:
+                     err.message ||
+                     'An error occurred while creating the company!',
+               });
             });
-         })
          res.status(201).send(data._id); // Change this to return something else???
       })
-      .catch((err) => { //STEP8
+      .catch((err) => {
+         //STEP8
          res.status(500).send({
             message:
                err.message || 'An error occurred while creating the user!',
@@ -119,13 +123,20 @@ exports.login = (req, res, next) => {
             return res.status(422);
          }
          bcrypt
-         //STEP3
+            //STEP3
             .compare(password, user.password)
             .then((doMatch) => {
                if (doMatch) {
                   //STEP4
-                  accessToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" }); //This creates the JWT token
-                  return res.status(200).json({ accessToken: accessToken, user_id: user._id });
+                  accessToken = jwt.sign(
+                     { user },
+                     process.env.ACCESS_TOKEN_SECRET,
+                     { expiresIn: '1h' }
+                  ); //This creates the JWT token
+                  return res.status(200).json({
+                     accessToken: accessToken,
+                     user_id: user._id,
+                  });
                }
                return res.status(422);
             })
@@ -133,7 +144,7 @@ exports.login = (req, res, next) => {
             .catch((err) => {
                console.log(err);
                return res.status(500);
-            })
+            });
       })
       //STEP5
       .catch((err) => {
@@ -153,17 +164,30 @@ exports.logout = (req, res, next) => {
    const authHeader = req.headers['authorization'];
 
    //STEP2
-   jwt.sign(authHeader, '', {expiresIn: 1}, (logout, err) => {
+   jwt.sign(authHeader, '', { expiresIn: 1 }, (logout, err) => {
       if (logout) {
          res.status(201).send({
-            message: 'You have been Logged Out.'
+            message: 'You have been Logged Out.',
          });
-      } else { 
+      } else {
          //STEP3
          res.status(400).send({
-            message: 'Error!'
+            message: 'Error!',
          });
-      };
-   })
+      }
+   });
 };
 
+exports.getUser = (req, res, next) => {
+   const userId = req.params.userId;
+   User.findById(userId)
+      .then((user) => {
+         console.log(user);
+         res.status(200).json({
+            user: user,
+         });
+      })
+      .catch((err) => {
+         console.log(err);
+      });
+};
