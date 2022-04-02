@@ -74,7 +74,16 @@
             "description": "Authenticated User",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
+              "type": "object",
+              "required": "password",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
