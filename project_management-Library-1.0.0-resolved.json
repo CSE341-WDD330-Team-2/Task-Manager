@@ -138,6 +138,47 @@
         }
       }
     },
+    "/{userId}": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Find user by ID",
+        "operationId": "getUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Pull user info from database",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data retrieved",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "Failed to process request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "/task/add-task": {
       "post": {
         "tags": [

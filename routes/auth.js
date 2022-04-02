@@ -29,14 +29,14 @@ router.put(
 );
 //LOG IN
 router.post(
-   '/login', 
+   '/login',
    [
       body('email')
-      .isEmail()
-      .withMessage('Please enter a valid email.')
-      .normalizeEmail(),
+         .isEmail()
+         .withMessage('Please enter a valid email.')
+         .normalizeEmail(),
       body('password').trim().isLength({
-         min: 5
+         min: 5,
       }),
       body('name').trim().not().isEmpty(),
    ],
@@ -44,5 +44,7 @@ router.post(
 );
 //LOG OUT
 router.put('/logout', isAuth, authController.logout);
+
+router.get('/:userId', isAuth, authController.getUser);
 
 module.exports = router;
