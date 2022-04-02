@@ -8,7 +8,7 @@ const taskController = require('../controllers/task');
 //GET ALL TASK
 router.get('/', isAuth, taskController.getTasks);
 //GET SINGLE TASK
-router.get('/task/:taskId', isAuth, taskController.getTask);
+router.get('/:taskId', isAuth, taskController.getTask);
 //CREATE TASK
 router.post('/add-task', isAuth, taskController.createTask);
 //UPDATE TASK
