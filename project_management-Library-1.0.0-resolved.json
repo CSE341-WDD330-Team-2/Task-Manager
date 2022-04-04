@@ -7,6 +7,14 @@
   },
   "host": "localhost:8080",
   "basePath": "/",
+  "securitySchemes": {
+    "Bearer": {
+      "type": "apiKey",
+      "description": "JWT Authorization header using the Bearer scheme.",
+      "scheme": "bearer",
+      "in": "header"
+    }
+  },
   "tags": [
     {
       "name": "project",
@@ -120,22 +128,22 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
+        "security": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "User Session Ended",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+            "Bearer": "Bearer []"
           }
         ],
         "responses": {
           "201": {
             "description": "User logged out",
             "schema": {
-              "$ref": "#/definitions/User"
+              "type": "string"
+            }
+          },
+          "403": {
+            "description": "Forbidden Error?",
+            "schema": {
+              "type": "string"
             }
           },
           "500": {
@@ -144,7 +152,7 @@
               "type": "string"
             }
           }
-        }
+        }        
       }
     },
     "/{userId}": {
@@ -199,6 +207,11 @@
         "produces": [
           "application/json"
         ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
+        ],
         "parameters": [
           {
             "in": "body",
@@ -242,6 +255,11 @@
         "produces": [
           "application/json"
         ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -272,6 +290,11 @@
         "operationId": "getTask",
         "produces": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
         ],
         "parameters": [
           {
@@ -314,6 +337,11 @@
         ],
         "produces": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
         ],
         "parameters": [
           {
@@ -370,6 +398,11 @@
         "produces": [
           "application/json"
         ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
+        ],
         "parameters": [
           {
             "name": "taskId",
@@ -401,6 +434,11 @@
         "operationId": "getCompany",
         "produces": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
         ],
         "parameters": [
           {
@@ -444,6 +482,11 @@
         "operationId": "getCompany",
         "produces": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
         ],
         "parameters": [
           {
@@ -489,6 +532,11 @@
         "produces": [
           "application/json"
         ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
+        ],
         "parameters": [
           {
             "name": "companyId",
@@ -530,6 +578,11 @@
         "operationId": "updateCompany",
         "produces": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
         ],
         "parameters": [
           {
@@ -573,6 +626,11 @@
         "produces": [
           "application/json"
         ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
+        ],
         "parameters": [
           {
             "name": "companyId",
@@ -603,6 +661,14 @@
           }
         }
       }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "description": "Value: Bearer ",
+      "name": "Authorization",
+      "in": "header"
     }
   },
   "definitions": {
