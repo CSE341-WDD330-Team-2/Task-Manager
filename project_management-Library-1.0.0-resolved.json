@@ -26,7 +26,7 @@
     "http"
   ],
   "paths": {
-    "/signup": {
+    "/auth/signup": {
       "put": {
         "tags": [
           "auth"
@@ -64,7 +64,7 @@
         }
       }
     },
-    "/login": {
+    "/auth/login": {
       "post": {
         "tags": [
           "auth"
@@ -117,7 +117,7 @@
         }
       }
     },
-    "/logout": {
+    "/auth/logout": {
       "put": {
         "tags": [
           "auth"
@@ -155,7 +155,7 @@
         }        
       }
     },
-    "/{userId}": {
+    "/auth/{userId}": {
       "get": {
         "tags": [
           "auth"
@@ -245,7 +245,7 @@
         }
       }
     },
-    "/tasks": {
+    "/task/": {
       "get": {
         "tags": [
           "task"
