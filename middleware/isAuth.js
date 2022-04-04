@@ -1,18 +1,26 @@
-// Get the token that is sent, verify that this is correct user, return user for other requests 
-// function authenticateToken(req, res, next) {
-
-// }
-
+const jwt = require('jsonwebtoken'); 
 require('dotenv').config();
 
 module.exports = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    let authHeader = req.headers['authorization'];
+    let token;
+
+    // First condition for general web requests and Postman
+    if (authHeader.includes(' ')) {
+        token = authHeader && authHeader.split(' ')[1];
+    // Second condition specifically for Swagger documentation
+    } else {
+        token = authHeader;
+    }
     if (token === null) return res.sendStatus(401);
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403);
+        if (err) {
+            console.log(err);
+            return res.sendStatus(403);
+        }
         req.user = user;
+        console.log(req.user);
         next();
     })
 }
