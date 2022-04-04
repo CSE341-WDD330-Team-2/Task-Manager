@@ -33,10 +33,6 @@ const taskSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    // taskId: {
-    //     type: Schema.Types.ObjectId,
-    //     required: true
-    // }
 });
 
 module.exports = mongoose.model('Task', taskSchema);
