@@ -8,8 +8,8 @@ const isAuth = require('../middleware/isAuth');
 const companyController = require('../controllers/company');
 
 //GET ALL COMPANIES
-router.get('/companies', isAuth, companyController.getCompanies);
+router.get('/', isAuth, companyController.getCompanies);
 //GET SINGLE COMPANY
-router.get('/company', isAuth, companyController.getCompany);
+router.get('/:companyId', isAuth, companyController.getCompany);
 
 module.exports = router;
