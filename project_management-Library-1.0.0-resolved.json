@@ -425,7 +425,7 @@
         }
       }
     },
-    "/company": {
+    "/company/{companyId}": {
       "get": {
         "tags": [
           "company"
@@ -442,8 +442,8 @@
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "company",
+            "in": "path",
+            "name": "companyId",
             "description": "Pull company info from database",
             "required": true,
             "schema": {
@@ -488,17 +488,6 @@
             "Bearer": "Bearer []"
           }
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "companies",
-            "description": "Pull company info from database",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Company"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Companies data retrieved",
@@ -508,147 +497,6 @@
           },
           "404": {
             "description": "Task not found",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      }
-    },
-    "/companies/addCompany/{companyId}": {
-      "post": {
-        "tags": [
-          "company"
-        ],
-        "summary": "Create company",
-        "description": "Add company to the database",
-        "operationId": "createCompany",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "Bearer": "Bearer []"
-          }
-        ],
-        "parameters": [
-          {
-            "name": "companyId",
-            "in": "path",
-            "description": "ID of company that needs to be updated",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully created company",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "403": {
-            "description": "Invalid Task",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      }
-    },
-    "/companies/updateCompany/{companyId}": {
-      "put": {
-        "tags": [
-          "company"
-        ],
-        "summary": "Update Company",
-        "description": "Update company object with new information",
-        "operationId": "updateCompany",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "Bearer": "Bearer []"
-          }
-        ],
-        "parameters": [
-          {
-            "name": "companyId",
-            "in": "path",
-            "description": "Update Company",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Successfully update company",
-            "schema": {
-              "$ref": "#/definitions/Company"
-            }
-          },
-          "403": {
-            "description": "Invalid Company Object",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      }
-    },
-    "/companies/deleteCompany/{companyId}": {
-      "delete": {
-        "tags": [
-          "company"
-        ],
-        "summary": "Delete Company",
-        "description": "Delete company object",
-        "operationId": "deleteCompany",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "Bearer": "Bearer []"
-          }
-        ],
-        "parameters": [
-          {
-            "name": "companyId",
-            "in": "path",
-            "description": "Delete Company",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Successfully updated company",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "403": {
-            "description": "Invalid Company Object",
             "schema": {
               "type": "string"
             }
