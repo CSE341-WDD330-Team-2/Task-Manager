@@ -26,7 +26,7 @@
     "http"
   ],
   "paths": {
-    "/signup": {
+    "/auth/signup": {
       "put": {
         "tags": [
           "auth"
@@ -64,7 +64,7 @@
         }
       }
     },
-    "/login": {
+    "/auth/login": {
       "post": {
         "tags": [
           "auth"
@@ -117,7 +117,7 @@
         }
       }
     },
-    "/logout": {
+    "/auth/logout": {
       "put": {
         "tags": [
           "auth"
@@ -155,7 +155,7 @@
         }        
       }
     },
-    "/{userId}": {
+    "/auth/{userId}": {
       "get": {
         "tags": [
           "auth"
@@ -164,6 +164,11 @@
         "operationId": "getUser",
         "produces": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
         ],
         "parameters": [
           {
@@ -245,7 +250,7 @@
         }
       }
     },
-    "/tasks": {
+    "/task": {
       "get": {
         "tags": [
           "task"
@@ -271,6 +276,12 @@
                 "format": "int32"
               }
             }
+          },
+          "422": {
+            "description": "Invalid login",
+              "schema": {
+                "type": "string"
+              }
           },
           "500": {
             "description": "Failed to process request",
