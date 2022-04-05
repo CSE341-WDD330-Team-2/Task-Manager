@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "title": "Project Management"
   },
-  "host": "localhost:8080",
+  "host": "cse341-wdd330-task-manager.herokuapp.com",
   "basePath": "/",
   "securitySchemes": {
     "Bearer": {
@@ -22,7 +22,7 @@
     }
   ],
   "schemes": [
-    
+    "https",
     "http"
   ],
   "paths": {
