@@ -180,7 +180,7 @@ exports.deleteTask = (req, res, next) => {
          return User.findById(userId); //STEP3
       })
       .then((user) => {
-         return company.findOne({ employees: user }); //STEP4
+         return Company.findOne({ employees: user }); //STEP4
       })
       .then((company) => {
          company.tasks.pull(taskId); //STEP5
