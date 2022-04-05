@@ -485,7 +485,7 @@
         }
       }
     },
-    "/companies": {
+    "/company": {
       "get": {
         "tags": [
           "company"
