@@ -123,9 +123,9 @@ exports.login = (req, res, next) => {
             return res.status(422);
          }
          bcrypt
-            //STEP3
-            .compare(password, user.password)
-            .then((doMatch) => {
+         //STEP3
+         .compare(password, user.password)
+         .then((doMatch) => {
                if (doMatch) {
                   //STEP4
                   accessToken = jwt.sign(
@@ -137,8 +137,11 @@ exports.login = (req, res, next) => {
                      accessToken: accessToken,
                      user_id: user._id,
                   });
+               } else {
+                  res.status(422).send({
+                     message: 'Invalid Credentials!'
+                  });
                }
-               return res.status(422);
             })
             //STEP5
             .catch((err) => {

@@ -165,6 +165,11 @@
         "produces": [
           "application/json"
         ],
+        "security": [
+          {
+            "Bearer": "Bearer []"
+          }
+        ],
         "parameters": [
           {
             "name": "userId",
@@ -245,7 +250,8 @@
         }
       }
     },
-    "/task/": {
+
+    "/task": {
       "get": {
         "tags": [
           "task"
@@ -271,6 +277,12 @@
                 "format": "int32"
               }
             }
+          },
+          "422": {
+            "description": "Invalid login",
+              "schema": {
+                "type": "string"
+              }
           },
           "500": {
             "description": "Failed to process request",
