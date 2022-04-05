@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 router.use('/api-docs', require('./swagger'));
-router.use('/', require('./auth'));
+router.use('/auth', require('./auth'));
 router.use('/task', require('./task'));
 router.use('/company', require('./companies'));
 
